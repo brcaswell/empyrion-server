@@ -1,9 +1,5 @@
 FROM ubuntu:bionic AS Ubuntu_Wine_Bionic
 
-ENV BRANCH "public" && \
-	INSTANCE_NAME "default" && \
-	TZ "America/New_York"
-
 RUN export DEBIAN_FRONTEND noninteractive && \
     dpkg --add-architecture i386 && \
     apt-get update 
@@ -38,25 +34,20 @@ WORKDIR /home/steamuser
 
 RUN /usr/games/steamcmd +quit
 
-FROM Ubuntu_Wine_Steamcmd AS Ubuntu_Wine_Steamcmd_Empyrion
-
-RUN mkdir -p '/home/steamuser/Empyrion - Dedicated Server/steamapps'
-
-# Run app validate several times workaround steam app install bug
-RUN /usr/games/steamcmd +login anonymous +app_update 530870 validate  +quit || \
-   /usr/games/steamcmd +login anonymous +app_update 530870 validate  +quit ; exit 0
-
-RUN mkdir -p ~/.steam/sdk32 && ln -s ~/.steam/steamcmd/linux32/steamclient.so ~/.steam/sdk32/steamclient.so && \
-	ln -s ~/.steam/SteamApps ~/.steam/steamapps
-
-# Make a volume
-# contains configs and world saves
-VOLUME [ "/home/steamuser/.steam/steamapps/common/Empyrion - Dedicated Server/Saves",	\
-	"/home/steamuser/.steam/steamapps/common/Empyrion - Dedicated Server/Logs", \
-	"/home/steamuser/.steam/steamapps/common/Empyrion - Dedicated Server/Content/Mods" ]
+RUN ln -s ~/.steam/SteamApps ~/.steam/steamapps && \
+	mkdir -p '~/Empyrion - Dedicated Server'
 
 ADD files/*.sh ~/
 
-EXPOSE 26900 \
-	30000-30004 \
+
+VOLUME ["/home/steamcmd/Empyrion - Dedicate Server"]
+
+EXPOSE 30000-30004 \
 	30000-30004/udp 
+
+ENV BRANCH "public" && \
+	FORCE_APP_UPDATE 1 && \
+	INSTANCE_NAME "default" && \
+	TZ "America/New_York"
+
+ENTRYPOINT ["~/start.sh"]

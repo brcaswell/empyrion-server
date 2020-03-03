@@ -1,5 +1,22 @@
 #!/bin/bash -ex
 
+if [ ! -f "/home/steamuser/.steam/steamapps/common/Empyrion - Dedicated Server/dedicated.yaml" ] || [ ${FORCE_APP_UPDATE} = 1 ]
+then
+	if [ ${BRANCH} == public ]
+	then
+		# GA Branch
+		/usr/games/steamcmd +login anonymous +app_update 530870 validate +quit 
+	else
+		# used specified branch
+		/usr/games/steamcmd +login anonymous +app_update 530870 -beta ${BRANCH} validate +quit 
+	fi
+fi
+
+if [ ! -f "~/Empyrion - Dedicated Server/dedicated.yaml" ]
+then
+	ln -s "~/.steam/steamapps/common/Empyrion - Dedicated Server" "~/Empyrion - Dedicated Server"
+fi
+
 rm -f /tmp/.X1-lock
 Xvfb :1 -screen 0 800x600x24 &
 export WINEDLLOVERRIDES="mscoree,mshtml="
