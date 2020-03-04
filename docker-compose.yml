@@ -11,7 +11,3 @@ services:
       - 30000-30004:30000-30004/udp
     environment:
       - INSTANCE_NAME=t3stn3t
-    #entrypoint: 
-    #  - "tail"
-    #  - "-f"
-    #  - "/dev/null"
