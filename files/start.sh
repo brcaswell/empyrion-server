@@ -12,12 +12,6 @@ then
 	fi
 fi
 
-if [ ! -f /home/steamuser/common/"Empyrion - Dedicated Server"/dedicated.yaml ]
-then
-	ln -s 
-	/home/steamuser/.steam/steamapps/common/"Empyrion - Dedicated Server" /home/steamuser/common/"Empyrion - Dedicated Server"
-fi
-
 rm -f /tmp/.X1-lock
 Xvfb :1 -screen 0 800x600x24 &
 export WINEDLLOVERRIDES="mscoree,mshtml="
@@ -34,6 +28,11 @@ if [ ! -f /home/steamuser/.steam/steamapps/common/"Empyrion - Dedicated Server"/
 then
 	mkdir -p /home/steamuser/.steam/steamapps/common/"Empyrion - Dedicated Server"/Logs
 	touch /home/steamuser/.steam/steamapps/common/"Empyrion - Dedicated Server"/Logs/wine.log	
+fi
+
+if [ ! -f /home/steamuser/common/"Empyrion - Dedicated Server"/dedicated.yaml ]
+then
+	ln -s /home/steamuser/.steam/steamapps/common/"Empyrion - Dedicated Server" /home/steamuser/common/"Empyrion - Dedicated Server"
 fi
 
 cd /home/steamuser/.steam/steamapps/common/"Empyrion - Dedicated Server"/DedicatedServer
