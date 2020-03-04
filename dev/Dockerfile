@@ -1,4 +1,4 @@
-FROM local-base/empyrion-server:latest AS Empyrion_Installed
+FROM antimodes201/empyrion-server:latest AS Empyrion_Installed
 
 
 # Run app validate several times workaround steam app install bug
