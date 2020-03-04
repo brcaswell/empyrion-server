@@ -4,14 +4,14 @@ services:
   empyrion:
     image: antimodes201/empyrion-server:latest
     volumes:
-      - "./Empyrion/Logs:/home/steamuser/.steam/steamapps/common/Empyrion - Dedicated Server/Logs"
-      - "./Empyrion/Saves:/home/steamuser/.steam/steamapps/common/Empyrion - Dedicated Server/Saves"
-      - "./Empyrion/Mods:/home/steamuser/.steam/steamapps/common/Empyrion - Dedicated Server/Content/Mods"
+      - "./common:/home/steamuser/common"
     network_mode: "bridge"
-    entrypoint: ~/start.sh
     ports:
-      - 26900
       - 30000-30004:30000-30004
       - 30000-30004:30000-30004/udp
     environment:
       - INSTANCE_NAME=t3stn3t
+    #entrypoint: 
+    #  - "tail"
+    #  - "-f"
+    #  - "/dev/null"
