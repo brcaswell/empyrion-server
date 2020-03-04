@@ -34,20 +34,19 @@ WORKDIR /home/steamuser
 
 RUN /usr/games/steamcmd +quit
 
-RUN ln -s ~/.steam/SteamApps ~/.steam/steamapps && \
-	mkdir -p '~/Empyrion - Dedicated Server'
+RUN ln -s /home/steamuser/.steam/SteamApps /home/steamuser/.steam/steamapps && \
+	mkdir -p /home/steamuser/common
 
-ADD files/*.sh ~/
-
-
-VOLUME ["/home/steamcmd/Empyrion - Dedicate Server"]
+VOLUME ["/home/steamuser/common"]
 
 EXPOSE 30000-30004 \
 	30000-30004/udp 
 
-ENV BRANCH "public" && \
-	FORCE_APP_UPDATE 1 && \
-	INSTANCE_NAME "default" && \
-	TZ "America/New_York"
+ENV BRANCH "public"
+ENV FORCE_APP_UPDATE 1
+ENV INSTANCE_NAME "default"
+ENV TZ "America/New_York"
 
-ENTRYPOINT ["~/start.sh"]
+ADD files/*.sh /home/steamuser/
+
+ENTRYPOINT ["/home/steamuser/start.sh"]
